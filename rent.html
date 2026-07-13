@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rent Appliances | Elite Repair & Services</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+<body>
+  <header>
+    <a href="index.html" class="logo">
+    <img src="images/logo.jpeg" alt="Elite Repair & Services logo" width="180" height="90" onerror="this.onerror=null;this.src='images/logo.jpeg'">
+    <span class="site-name">Elite Repair & Services</span>
+    </a>
+    <button class="hamburger" onclick="toggleMenu()" aria-label="Toggle navigation">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+    <nav id="navMenu">
+      <a href="index.html">Home</a>
+      <a href="product.html">Products</a>
+      <a href="booking.html">Book Service</a>
+      <a href="sell.html">Sell</a>
+      <a href="rent.html" class="active">Rent</a>
+      <a href="blog.html">Blog</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </header>
+
+  <section class="rent-hero">
+    <div class="hero-overlay">
+      <div class="hero-content">
+        <h1>Choose an Appliance Category</h1>
+        <p>Select one of the rental categories below to view available appliances and pricing.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="rent-categories">
+    <h2>Rental Categories</h2>
+    <div class="category-grid">
+      <a href="rent-category.html?category=Washing%20Machine" class="category-card">
+        <span>🧺</span>
+        <h3>Washing Machines</h3>
+      </a>
+      <a href="rent-category.html?category=Refrigerator" class="category-card">
+        <span>🧊</span>
+        <h3>Refrigerators</h3>
+      </a>
+      <a href="rent-category.html?category=Air%20Conditioner" class="category-card">
+        <span>❄️</span>
+        <h3>Air Conditioners</h3>
+      </a>
+      <a href="rent-category.html?category=Oven" class="category-card">
+        <span>🔥</span>
+        <h3>Ovens</h3>
+      </a>
+    </div>
+  </section>
+
+  <section class="faq-section">
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq-item">
+      <h3>How do I rent an appliance?</h3>
+      <p>Click any category above, choose the appliance model, add it to your cart, and place your order on the next page.</p>
+    </div>
+    <div class="faq-item">
+      <h3>Do I pay a deposit?</h3>
+      <p>Most rentals are billed monthly and may require a small refundable deposit. Specific terms appear on the category page.</p>
+    </div>
+    <div class="faq-item">
+      <h3>Is installation included?</h3>
+      <p>Yes. Free installation is included for rented appliances whenever available in your area.</p>
+    </div>
+    <div class="faq-item">
+      <h3>Can I extend my rental?</h3>
+      <p>Yes. Contact our support team after placing the order to extend the rental period.</p>
+    </div>
+  </section>
+
+  <section class="contact-company">
+    <div class="contact-box">
+      <h2>Contact Us</h2>
+      <p>📍 Your Address Here</p>
+      <p>📞 +91 9035790433</p>
+      <p>📧 EliteRepair&Services.com</p>
+      <p>🕒 Mon - Sat: 9:00 AM - 7:00 PM</p>
+    </div>
+    <div class="company-box">
+      <h2>About Elite Repair & Services</h2>
+      <ul>
+        <li>✔ 10+ Years of Experience</li>
+        <li>✔ Certified Technicians</li>
+        <li>✔ Genuine Spare Parts</li>
+        <li>✔ Same-Day Service Available</li>
+        <li>✔ Rental, Repair & Sales Services</li>
+      </ul>
+    </div>
+  </section>
+
+  <footer>
+    <p>&copy; 2026 Elite Repair & Services. All rights reserved.</p>
+  </footer>
+
+  <div class="cart-modal" id="cartModal" aria-hidden="true">
+    <div class="cart-content">
+      <button class="cart-close" id="cartClose" type="button" aria-label="Close cart">&times;</button>
+      <h2>Your Cart</h2>
+      <div class="cart-items" id="cartItems"></div>
+      <div class="cart-total"><span>Total</span><strong id="cartTotal">₹0</strong></div>
+      <div class="cart-actions">
+        <button id="placeOrder" type="button">Place Order</button>
+        <button id="clearCart" type="button">Clear Cart</button>
+      </div>
+      <p id="orderNotification" class="order-notification"></p>
+    </div>
+  </div>
+
+  <script src="rent-shop.js"></script>
+  <script>
+    const appliances = [
+      { name: 'Front Load Washing Machine', category: 'Washing Machine', price: 1299, image: 'images/washing-machine.jpg', status: 'Available', description: 'Premium washing machine with fast wash settings.' },
+      { name: 'Top Load Washing Machine', category: 'Washing Machine', price: 1099, image: 'images/washing-machine.jpg', status: 'Available', description: 'Compact washer ideal for families.' },
+      { name: 'Double Door Refrigerator', category: 'Refrigerator', price: 1399, image: 'images/fridge.jpg', status: 'Available', description: 'Large capacity refrigerator with freezer.' },
+      { name: 'Single Door Refrigerator', category: 'Refrigerator', price: 1199, image: 'images/fridge.jpg', status: 'Booked', description: 'Compact refrigerator ideal for small kitchens.' },
+      { name: 'Split AC 1.5 Ton', category: 'Air Conditioner', price: 1599, image: 'images/ac.jpg', status: 'Available', description: 'Comfort cooling for large rooms.' },
+      { name: 'Window AC 1.2 Ton', category: 'Air Conditioner', price: 1499, image: 'images/ac.jpg', status: 'Available', description: 'Economical air conditioner with fast cooling.' },
+      { name: 'Convection Oven', category: 'Oven', price: 999, image: 'images/microwave.jpg', status: 'Available', description: 'Versatile oven for baking, grilling and roasting.' },
+      { name: 'Microwave Oven', category: 'Oven', price: 899, image: 'images/microwave.jpg', status: 'Booked', description: 'Fast microwave oven for daily cooking.' }
+    ];
+
+    const rentalsContainer = document.getElementById('rentalsContainer');
+    const rentSearch = document.getElementById('rentSearch');
+    const rentSort = document.getElementById('rentSort');
+    const rentFilter = document.getElementById('rentFilter');
+
+    function renderAppliances() {
+      const searchTerm = rentSearch.value.toLowerCase();
+      const sortValue = rentSort.value;
+      const statusFilter = rentFilter.value;
+
+      let filtered = appliances.filter((item) => {
+        const matchesSearch = `${item.name} ${item.description}`.toLowerCase().includes(searchTerm);
+        const matchesStatus = statusFilter === 'all' || item.status === statusFilter;
+        return matchesSearch && matchesStatus;
+      });
+
+      if (sortValue === 'priceLow') {
+        filtered.sort((a, b) => a.price - b.price);
+      } else if (sortValue === 'priceHigh') {
+        filtered.sort((a, b) => b.price - a.price);
+      } else if (sortValue === 'available') {
+        filtered.sort((a, b) => (a.status === b.status ? 0 : a.status === 'Available' ? -1 : 1));
+      }
+
+      rentalsContainer.innerHTML = filtered.length ? filtered.map((item) => `
+        <article class="rental-card">
+          <div class="rental-image">
+            <img src="${item.image}" alt="${item.name}">
+            <span class="category-tag">${item.category}</span>
+          </div>
+          <div class="rental-info">
+            <h3>${item.name}</h3>
+            <p class="rent-brand">${item.description}</p>
+            <div class="rent-meta">
+              <span class="price">₹${item.price}/month</span>
+              <span class="status ${item.status === 'Booked' ? 'booked' : 'available'}">${item.status}</span>
+            </div>
+            <button class="rent-btn add-cart" type="button" data-name="${item.name}" data-category="${item.category}" data-price="${item.price}" data-image="${item.image}">Add to Cart</button>
+          </div>
+        </article>
+      `).join('') : '<p class="empty-state">No appliances match your search.</p>';
+    }
+
+    rentSearch.addEventListener('input', renderAppliances);
+    rentSort.addEventListener('change', renderAppliances);
+    rentFilter.addEventListener('change', renderAppliances);
+
+    renderAppliances();
+  </script>
+</body>
+</html>

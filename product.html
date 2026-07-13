@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Products | Elite Repair & Services</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+  <a href="index.html" class="logo">
+        <img src="images/logo.jpeg" alt="Elite Repair & Services logo" width="180" height="90" onerror="this.onerror=null;this.src='images/logo.jpeg'">
+        <span class="site-name">Elite Repair & Services</span>
+      </a>
+
+  <button class="hamburger" onclick="toggleMenu()" aria-label="Toggle navigation">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+
+  <nav id="navMenu">
+    <a href="index.html">Home</a>
+    <a href="product.html" class="active">Products</a>
+    <a href="booking.html">Book Service</a>
+    <a href="sell.html">Sell</a>
+    <a href="rent.html">Rent</a>
+    <a href="blog.html">Blog</a>
+    <a href="about.html">About</a>
+    <a href="contact.html">Contact</a>
+  </nav>
+</header>
+
+<script>
+function toggleMenu() {
+  const navMenu = document.getElementById('navMenu');
+  navMenu.classList.toggle('active');
+}
+</script>
+
+<main>
+  <section class="page-banner">
+    <h1>Our Products</h1>
+    <p>Explore reliable appliance repair and service solutions for your home.</p>
+  </section>
+
+  <section class="products">
+    <div class="section-title">
+      <h2>Choose Your Appliance Service</h2>
+      <p>Fast support for repairs, installations, and maintenance across your home.</p>
+    </div>
+
+    <div class="filter-bar">
+      <button class="filter-btn active" data-filter="all" type="button">All Services</button>
+      <button class="filter-btn" data-filter="repair" type="button">Repair</button>
+      <button class="filter-btn" data-filter="install" type="button">Installation</button>
+      <button class="filter-btn" data-filter="maintenance" type="button">Maintenance</button>
+    </div>
+
+    <div class="product-grid">
+      <article class="product-card" data-category="repair">
+        <span class="product-badge">Most Popular</span>
+        <img src="images/washing-machine.jpg" alt="Washing Machine">
+        <div class="product-info">
+          <h3>Washing Machine</h3>
+          <p>Expert repair and maintenance for front-load and top-load machines.</p>
+          <div class="product-meta">
+            <span class="price">From ₹799</span>
+            <span class="tag">Repair</span>
+          </div>
+          <button class="book-btn" type="button">Book Service</button>
+        </div>
+      </article>
+
+      <article class="product-card" data-category="install">
+        <span class="product-badge">New Service</span>
+        <img src="images/ac.jpg" alt="Air Conditioner">
+        <div class="product-info">
+          <h3>Air Conditioner</h3>
+          <p>Fast AC installation, servicing, and cooling system repairs.</p>
+          <div class="product-meta">
+            <span class="price">From ₹1,199</span>
+            <span class="tag">Install</span>
+          </div>
+          <button class="book-btn" type="button">Book Service</button>
+        </div>
+      </article>
+
+      <article class="product-card" data-category="maintenance">
+        <span class="product-badge">Reliable</span>
+        <img src="images/fridge.jpg" alt="Refrigerator">
+        <div class="product-info">
+          <h3>Refrigerator</h3>
+          <p>Reliable fridge repair for cooling issues, leakage, and power problems.</p>
+          <div class="product-meta">
+            <span class="price">From ₹699</span>
+            <span class="tag">Maintenance</span>
+          </div>
+          <button class="book-btn" type="button">Book Service</button>
+        </div>
+      </article>
+
+      <article class="product-card" data-category="repair">
+        <span class="product-badge">Quick Fix</span>
+        <img src="images/microwave.jpg" alt="Microwave Oven">
+        <div class="product-info">
+          <h3>Microwave Oven</h3>
+          <p>Professional microwave repair for heating, display, and control faults.</p>
+          <div class="product-meta">
+            <span class="price">From ₹549</span>
+            <span class="tag">Repair</span>
+          </div>
+          <button class="book-btn" type="button">Book Service</button>
+        </div>
+      </article>
+    </div>
+  </section>
+</main>
+
+<div class="modal-overlay" id="bookingModal" aria-hidden="true">
+  <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="bookingTitle">
+    <button class="modal-close" id="closeModal" type="button" aria-label="Close booking form">&times;</button>
+    <h3 id="bookingTitle">Book Your Service</h3>
+    <p>Share your details and we’ll contact you shortly.</p>
+    <form class="booking-form" id="bookingForm">
+      <input type="text" placeholder="Your Name" required>
+      <input type="email" placeholder="Email Address" required>
+      <input type="tel" placeholder="Phone Number" required>
+      <select required>
+        <option value="">Select Appliance</option>
+        <option>Washing Machine</option>
+        <option>Air Conditioner</option>
+        <option>Refrigerator</option>
+        <option>Microwave Oven</option>
+      </select>
+      <textarea rows="3" placeholder="Tell us about the issue"></textarea>
+      <button type="submit">Request Service</button>
+    </form>
+  </div>
+</div>
+
+<script>
+const filterButtons = document.querySelectorAll('.filter-btn');
+const productCards = document.querySelectorAll('.product-card');
+const modal = document.getElementById('bookingModal');
+const closeModal = document.getElementById('closeModal');
+const bookingForm = document.getElementById('bookingForm');
+const bookButtons = document.querySelectorAll('.book-btn');
+
+filterButtons.forEach((button) => {
+  button.addEventListener('click', () => {
+    filterButtons.forEach((btn) => btn.classList.remove('active'));
+    button.classList.add('active');
+
+    const filter = button.getAttribute('data-filter');
+
+    productCards.forEach((card) => {
+      const matches = filter === 'all' || card.getAttribute('data-category') === filter;
+      card.style.display = matches ? 'block' : 'none';
+    });
+  });
+});
+
+bookButtons.forEach((button) => {
+  button.addEventListener('click', () => {
+    modal.classList.add('active');
+    modal.setAttribute('aria-hidden', 'false');
+  });
+});
+
+function closeBookingModal() {
+  modal.classList.remove('active');
+  modal.setAttribute('aria-hidden', 'true');
+}
+
+closeModal.addEventListener('click', closeBookingModal);
+modal.addEventListener('click', (event) => {
+  if (event.target === modal) {
+    closeBookingModal();
+  }
+});
+
+bookingForm.addEventListener('submit', (event) => {
+  event.preventDefault();
+  alert('Thanks! Your service request has been received.');
+  closeBookingModal();
+  bookingForm.reset();
+});
+</script>
+
+<section class="contact-company">
+  <div class="contact-box">
+    <h2>Contact Us</h2>
+    <p>📞 +91 9035790433</p>
+    <p>📧 EliteRepair&Services.com</p>
+    <p>🕒 Mon - Sat: 9:00 AM - 7:00 PM</p>
+  </div>
+
+  <div class="company-box">
+    <h2>About Elite Repair & Services</h2>
+    <ul>
+      <li>✔ 20+ Years of Experience</li>
+      <li>✔ Certified Technicians</li>
+      <li>✔ Genuine Spare Parts</li>
+      <li>✔ Same-Day Service Available</li>
+      <li>✔ Repair, Sales & Rental Services</li>
+      <li>✔ Trusted by Thousands of Customers</li>
+    </ul>
+  </div>
+</section>
+
+<footer>
+  <p>&copy; 2026 Elite Repair & Services. All rights reserved.</p>
+  <p><a href="booking.html">Book service</a> | <a href="contact.html">Contact us</a></p>
+</footer>
+
+</body>
+</html>

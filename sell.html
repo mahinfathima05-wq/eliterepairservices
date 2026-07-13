@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sell | Elite Repair & Services</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+      <a href="index.html" class="logo">
+        <img src="images/logo.jpeg" alt="Elite Repair & Services logo" width="180" height="90" onerror="this.onerror=null;this.src='images/logo.jpeg'">
+        <span class="site-name">Elite Repair & Services</span>
+      </a>
+
+    <button class="hamburger" onclick="toggleMenu()" aria-label="Toggle navigation">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+    <nav id="navMenu">
+      <a href="index.html">Home</a>
+      <a href="product.html">Products</a>
+      <a href="booking.html">Book Service</a>
+      <a href="sell.html" class="active">Sell</a>
+      <a href="rent.html">Rent</a>
+      <a href="blog.html">Blog</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="page-banner">
+      <h1>Sell Your Appliance</h1>
+      <p>List your appliance for sale quickly and safely with trusted support.</p>
+    </section>
+
+    <section class="sell-page">
+      <div class="sell-grid">
+        <div class="sell-info">
+          <h2>Why Sell With Us?</h2>
+          <ul>
+            <li>Fast inspection and quote</li>
+            <li>Secure pickup and verified buyers</li>
+            <li>Fair pricing and quick payment</li>
+          </ul>
+        </div>
+
+        <form id="sellForm" class="sell-form">
+          <h2>Submit a Sell Request</h2>
+          <input type="text" id="sellName" placeholder="Your Name" required>
+          <input type="text" id="sellPhone" placeholder="Phone Number" required>
+          <input type="email" id="sellEmail" placeholder="Email Address" required>
+          <select id="sellAppliance" required>
+            <option value="">Select Appliance Type</option>
+            <option value="Washing Machine">Washing Machine</option>
+            <option value="AC">Air Conditioner</option>
+            <option value="Refrigerator">Refrigerator</option>
+            <option value="Microwave Oven">Microwave Oven</option>
+            <option value="Other">Other</option>
+          </select>
+          <input type="text" id="sellModel" placeholder="Appliance Model" required>
+          <textarea id="sellCondition" placeholder="Condition of appliance" rows="4" required></textarea>
+          <input type="number" id="sellPrice" placeholder="Asking Price" required>
+          <input type="file" id="sellPhoto" accept="image/*">
+          <div id="sellMessage" class="form-message" aria-live="polite"></div>
+          <button type="submit">Submit Sell Request</button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <section class="contact-company">
+    <div class="contact-box">
+      <h2>Contact Us</h2>
+      <p>📍 Your Address Here</p>
+      <p>📞 +91 XXXXXXXXXX</p>
+      <p>📧 info@eliterepair.com</p>
+      <p>🕒 Mon - Sat: 9:00 AM - 7:00 PM</p>
+    </div>
+
+    <div class="company-box">
+      <h2>About Elite Repair & Services</h2>
+      <ul>
+        <li>✔ 10+ Years of Experience</li>
+        <li>✔ Certified Technicians</li>
+        <li>✔ Genuine Spare Parts</li>
+        <li>✔ Same-Day Service Available</li>
+        <li>✔ Repair, Sales & Rental Services</li>
+        <li>✔ Trusted by Thousands of Customers</li>
+      </ul>
+    </div>
+  </section>
+
+  <footer>
+    <p>&copy; 2026 Elite Repair & Services. All rights reserved.</p>
+    <p><a href="booking.html">Book Service</a> | <a href="sell.html">Sell</a> | <a href="rent.html">Rent</a> | <a href="blog.html">Blog</a> | <a href="about.html">About</a> | <a href="contact.html">Contact</a></p>
+  </footer>
+
+<script type="module">
+
+import { db } from "./firebase.js";
+
+import {
+  collection,
+  addDoc
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const sellForm = document.getElementById("sellForm");
+const sellMessage = document.getElementById("sellMessage");
+
+function showMessage(text, success = true) {
+  if (!sellMessage) return;
+  sellMessage.textContent = text;
+  sellMessage.className = `form-message ${success ? 'success' : 'error'}`;
+}
+
+async function submitToLocalServer(payload) {
+  try {
+    const formData = new FormData();
+    Object.keys(payload).forEach((k) => formData.append(k, payload[k]));
+    const res = await fetch('/api/sells', { method: 'POST', body: formData });
+    return res.ok;
+  } catch (e) {
+    console.warn('Local server submit failed', e);
+    return false;
+  }
+}
+
+if (sellForm) {
+  sellForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const payload = {
+      name: document.getElementById("sellName").value.trim(),
+      phone: document.getElementById("sellPhone").value.trim(),
+      email: document.getElementById("sellEmail").value.trim(),
+      appliance: document.getElementById("sellAppliance").value,
+      model: document.getElementById("sellModel").value.trim(),
+      condition: document.getElementById("sellCondition").value.trim(),
+      price: document.getElementById("sellPrice").value,
+      createdAt: new Date().toLocaleString()
+    };
+
+    // Try Firestore first
+    try {
+      await addDoc(collection(db, "sellRequests"), payload);
+      showMessage('✅ Sell Request Submitted Successfully!', true);
+      sellForm.reset();
+      return;
+    } catch (err) {
+      console.warn('Firestore submit failed', err);
+    }
+
+    // Next try local API server
+    const sentToServer = await submitToLocalServer(payload);
+    if (sentToServer) {
+      showMessage('✅ Sell request submitted to local server (fallback).', true);
+      sellForm.reset();
+      return;
+    }
+
+    // Final fallback: save to localStorage
+    try {
+      const stored = JSON.parse(localStorage.getItem('sellRequests') || '[]');
+      stored.push(payload);
+      localStorage.setItem('sellRequests', JSON.stringify(stored));
+      showMessage('✅ Saved locally (offline). We will submit when online.', true);
+      sellForm.reset();
+    } catch (e) {
+      console.error('Saving locally failed', e);
+      showMessage('❌ Failed to submit request.', false);
+    }
+  });
+}
+
+</script>
+
+</body>
+</html>
