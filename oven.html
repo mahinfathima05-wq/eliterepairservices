@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Oven Service | Elite Repair & Services</title>
+	<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+	<a href="index.html" class="logo">
+		<img src="images/logo.jpeg" alt="Elite Repair & Services Logo" onerror="this.onerror=null;this.src='images/logo.jpeg'">
+		<span class="site-name">Elite Repair & Services</span>
+	</a>
+	<button class="hamburger" onclick="toggleMenu()" aria-label="Toggle navigation">
+		<span></span>
+		<span></span>
+		<span></span>
+	</button>
+	<nav id="navMenu">
+		<a href="index.html">Home</a>
+		<a href="product.html">Products</a>
+		<a href="booking.html">Book Service</a>
+		<a href="sell.html">Sell</a>
+		<a href="rent.html">Rent</a>
+		<a href="blog.html">Blog</a>
+		<a href="about.html">About</a>
+		<a href="contact.html">Contact</a>
+	</nav>
+</header>
+
+<main>
+	<section class="page-banner">
+		<h1>Oven & Microwave Service</h1>
+		<p>Professional oven and microwave repair, maintenance and installation.</p>
+	</section>
+
+	<section class="products">
+		<div class="product-grid" style="padding:40px 8%;">
+			<article class="product-card">
+				<img src="./images/microwave.jpg" alt="Microwave Oven">
+				<div class="product-info">
+					<h3>Microwave / Oven</h3>
+					<p>Versatile oven and microwave repair for heating, display, and control faults.</p>
+					<div class="product-meta">
+						<span class="price">From ₹549</span>
+						<span class="tag">Repair</span>
+					</div>
+					<a href="booking.html" class="hero-btn" style="display:inline-block;margin-top:12px;">Book Service</a>
+				</div>
+			</article>
+		</div>
+	</section>
+</main>
+
+<script>
+function toggleMenu() { document.getElementById('navMenu').classList.toggle('active'); }
+</script>
+</body>
+</html>

@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blog | Elite Repair & Services</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+      <a href="index.html" class="logo">
+        <img src="images/logo.jpeg" alt="Elite Repair & Services logo" width="180" height="90" onerror="this.onerror=null;this.src='images/logo.jpeg'">
+        <span class="site-name">Elite Repair & Services</span>
+      </a>
+
+    <button class="hamburger" onclick="toggleMenu()" aria-label="Toggle navigation">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+    <nav id="navMenu">
+      <a href="index.html">Home</a>
+      <a href="product.html">Products</a>
+      <a href="booking.html">Book Service</a>
+      <a href="sell.html">Sell</a>
+      <a href="rent.html">Rent</a>
+      <a href="blog.html" class="active">Blog</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="page-banner">
+      <h1>Appliance Tips & Guides</h1>
+      <p>Explore helpful articles on maintenance, safety, repairs, and smart appliance care.</p>
+    </section>
+
+    <section class="blog-page">
+      <div class="blog-layout">
+        <section class="blog-list-section">
+          <h2>Latest Posts</h2>
+          <div id="blogsList" class="blog-list"></div>
+        </section>
+
+        <section class="create-blog">
+          <h2>Create a New Post</h2>
+          <form id="createBlogForm" class="blog-form">
+            <input type="text" id="blogTitle" placeholder="Blog Title" required>
+            <input type="text" id="blogAuthor" placeholder="Author Name" required>
+            <input type="text" id="blogCategory" placeholder="Category" required>
+            <textarea id="blogContent" placeholder="Write your advice or tip here..." rows="6" required></textarea>
+            <div id="blogMessage" class="form-message" aria-live="polite"></div>
+            <button type="submit">Publish Blog</button>
+          </form>
+        </section>
+      </div>
+    </section>
+  </main>
+
+  <section class="contact-company">
+    <div class="contact-box">
+      <h2>Contact Us</h2>
+      <p>📍 Your Address Here</p>
+      <p>📞 +91 XXXXXXXXXX</p>
+      <p>📧 info@eliterepair.com</p>
+      <p>🕒 Mon - Sat: 9:00 AM - 7:00 PM</p>
+    </div>
+
+    <div class="company-box">
+      <h2>About Elite Repair & Services</h2>
+      <ul>
+        <li>✔ 10+ Years of Experience</li>
+        <li>✔ Certified Technicians</li>
+        <li>✔ Genuine Spare Parts</li>
+        <li>✔ Same-Day Service Available</li>
+        <li>✔ Repair, Sales & Rental Services</li>
+        <li>✔ Trusted by Thousands of Customers</li>
+      </ul>
+    </div>
+  </section>
+
+  <footer>
+    <p>&copy; 2026 Elite Repair & Services. All rights reserved.</p>
+    <p><a href="booking.html">Book Service</a> | <a href="sell.html">Sell</a> | <a href="rent.html">Rent</a> | <a href="blog.html">Blog</a> | <a href="about.html">About</a> | <a href="contact.html">Contact</a></p>
+  </footer>
+
+  <script>
+    const blogsList = document.getElementById('blogsList');
+    const blogForm = document.getElementById('createBlogForm');
+    const blogMessage = document.getElementById('blogMessage');
+
+    function showBlogMessage(message, type = 'success') {
+      blogMessage.textContent = message;
+      blogMessage.className = `form-message ${type}`;
+    }
+
+    async function loadBlogs() {
+      try {
+        const response = await fetch('/api/blogs');
+        const blogs = await response.json();
+
+        if (!blogs.length) {
+          blogsList.innerHTML = '<p class="empty-state">No blog posts yet. Be the first to share helpful advice.</p>';
+          return;
+        }
+
+        blogsList.innerHTML = blogs.map((blog) => `
+          <article class="blog-card">
+            <div class="blog-card-top">
+              <span class="tag">${blog.category}</span>
+              <span class="blog-date">${new Date(blog.timestamp).toLocaleDateString()}</span>
+            </div>
+            <h3>${blog.title}</h3>
+            <p class="blog-meta">By ${blog.author}</p>
+            <p>${blog.content}</p>
+            <button class="blog-delete" type="button" onclick="deleteBlog(${blog.id})">Delete</button>
+          </article>
+        `).join('');
+      } catch (error) {
+        console.error('Error loading blogs:', error);
+        blogsList.innerHTML = '<p class="empty-state">Unable to load blog posts right now.</p>';
+      }
+    }
+
+    window.deleteBlog = async function (id) {
+      if (!confirm('Delete this post?')) return;
+      try {
+        const response = await fetch(`/api/blogs/${id}`, { method: 'DELETE' });
+        const data = await response.json();
+        showBlogMessage(data.message || 'Blog deleted successfully.', 'success');
+        loadBlogs();
+      } catch (error) {
+        console.error('Error deleting blog:', error);
+        showBlogMessage('Unable to delete the post right now.', 'error');
+      }
+    };
+
+    blogForm.addEventListener('submit', async function (event) {
+      event.preventDefault();
+
+      const blogData = {
+        title: document.getElementById('blogTitle').value.trim(),
+        author: document.getElementById('blogAuthor').value.trim(),
+        content: document.getElementById('blogContent').value.trim(),
+        category: document.getElementById('blogCategory').value.trim()
+      };
+
+      try {
+        const response = await fetch('/api/blogs', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(blogData)
+        });
+        const data = await response.json();
+        showBlogMessage(data.message || 'Blog published successfully!', 'success');
+        this.reset();
+        loadBlogs();
+      } catch (error) {
+        console.error('Error publishing blog:', error);
+        showBlogMessage('Unable to publish the post right now.', 'error');
+      }
+    });
+
+    loadBlogs();
+  </script>
+  <script type="module" src="contact.js"></script>
+<section class="contact-company">
+
+  <div class="contact-box">
+    <h2>Contact Us</h2>
+    <p>📞 +91 9035790433</p>
+    <p>📧 EliteRepair&Services.com</p>
+    <p>🕒 Mon - Sat: 9:00 AM - 7:00 PM</p>
+  </div>
+
+  <div class="company-box">
+    <h2>About Elite Repair & Services</h2>
+
+    <ul>
+      <li>✔ 20+ Years of Experience</li>
+      <li>✔ Certified Technicians</li>
+      <li>✔ Genuine Spare Parts</li>
+      <li>✔ Same-Day Service Available</li>
+      <li>✔ Repair, Sales & Rental Services</li>
+      <li>✔ Trusted by Thousands of Customers</li>
+    </ul>
+  </div>
+
+</section>
+
+</body>
+</html>

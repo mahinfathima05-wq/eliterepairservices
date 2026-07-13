@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Book a Service | Elite Repair & Services</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+</head>
+
+<body>
+
+<!-- ================= HEADER ================= -->
+
+<header>
+                <a href="index.html" class="logo">
+                <img src="images/logo.jpeg" alt="Elite Repair & Services logo" width="180" height="90" onerror="this.onerror=null;this.src='images/logo.jpeg'">
+                <span class="site-name">Elite Repair & Services</span>
+            </a>
+
+    <button class="hamburger" onclick="toggleMenu()" aria-label="Toggle navigation">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
+
+    <nav id="navMenu">
+        <a href="index.html">Home</a>
+        <a href="product.html">Products</a>
+        <a href="booking.html" class="active">Book Service</a>
+        <a href="sell.html">Sell</a>
+        <a href="rent.html">Rent</a>
+        <a href="blog.html">Blog</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+        <a href="login.html" class="admin-btn">
+            <i class="fas fa-user-shield"></i>
+            Admin
+        </a>
+    </nav>
+</header>
+
+<!-- ================= HERO ================= -->
+
+<section class="page-banner">
+
+    <h1>Book an Appliance Repair Service</h1>
+
+    <p>
+        Fast • Reliable • Affordable
+    </p>
+
+</section>
+
+<!-- ================= BOOKING FORM ================= -->
+
+<section class="booking-section">
+
+    <div class="booking-container">
+
+        <div class="booking-left">
+
+            <h2>Book Your Service</h2>
+
+            <p>
+
+                Fill in the details below and our technician
+                will contact you shortly.
+
+            </p>
+
+            <form id="bookingForm">
+<label for="serviceDate">Preferred Service Date</label>
+
+<input
+    type="date"
+    id="serviceDate"
+    required>
+
+<label for="serviceTime">Preferred Time</label>
+
+<select id="serviceTime" required>
+
+    <option value="">Select Time</option>
+
+    <option>09:00 AM - 11:00 AM</option>
+
+    <option>11:00 AM - 01:00 PM</option>
+
+    <option>01:00 PM - 03:00 PM</option>
+
+    <option>03:00 PM - 05:00 PM</option>
+
+    <option>05:00 PM - 07:00 PM</option>
+
+</select>
+
+<label for="photo">Upload Appliance Photo (Optional)</label>
+
+<input
+    type="file"
+    id="photo"
+    accept="image/*">
+                <input
+                    type="text"
+                    id="name"
+                    placeholder="Full Name"
+                    required>
+
+                <input
+                    type="tel"
+                    id="phone"
+                    placeholder="Phone Number"
+                    required>
+
+                <input
+                    type="email"
+                    id="email"
+                    placeholder="Email Address"
+                    required>
+
+                <input
+                    type="text"
+                    id="address"
+                    placeholder="Service Address"
+                    required>
+
+                <select
+                    id="appliance"
+                    required>
+
+                    <option value="">Select Appliance</option>
+
+                    <option>Air Conditioner</option>
+
+                    <option>Refrigerator</option>
+
+                    <option>Washing Machine</option>
+
+                    <option>Microwave Oven</option>
+
+                    <option>Television</option>
+
+                    <option>Water Purifier</option>
+
+                </select>
+
+                <textarea
+                    id="problem"
+                    rows="5"
+                    placeholder="Describe the problem"
+                    required></textarea>
+
+                <div id="formMessage" class="form-message" aria-live="polite"></div>
+
+                <button type="submit">
+
+                    <i class="fas fa-paper-plane"></i>
+
+                    Submit Booking
+
+                </button>
+
+            </form>
+
+        </div>
+
+        <div class="booking-right">
+
+            <img
+                src="images/technician.png"
+                alt="Technician">
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ================= WHY CHOOSE US ================= -->
+
+<section class="features">
+
+    <div class="feature">
+
+        <i class="fas fa-user-check"></i>
+
+        <h3>Certified Technicians</h3>
+
+        <p>Experienced professionals for every repair.</p>
+
+    </div>
+
+    <div class="feature">
+
+        <i class="fas fa-clock"></i>
+
+        <h3>Same Day Service</h3>
+
+        <p>Quick and reliable doorstep repairs.</p>
+
+    </div>
+
+    <div class="feature">
+
+        <i class="fas fa-shield-alt"></i>
+
+        <h3>Warranty</h3>
+
+        <p>Service backed with quality assurance.</p>
+
+    </div>
+
+    <div class="feature">
+
+        <i class="fas fa-hand-holding-dollar"></i>
+
+        <h3>Affordable Pricing</h3>
+
+        <p>No hidden charges.</p>
+
+    </div>
+
+</section>
+
+<!-- ================= CONTACT ================= -->
+
+<section class="contact-company">
+
+    <div class="contact-box">
+
+        <h2>Contact Us</h2>
+
+        <p><i class="fas fa-map-marker-alt"></i> Bangalore, Karnataka</p>
+
+        <p><i class="fas fa-phone"></i> +91 9035790433</p>
+
+        <p><i class="fas fa-envelope"></i> EliteRepair&Services.com</p>
+
+        <p><i class="fas fa-clock"></i> Mon - Sat | 9 AM - 7 PM</p>
+
+    </div>
+
+    <div class="company-box">
+
+        <h2>Why Choose Elite Repair?</h2>
+
+        <ul>
+
+            <li>✔ Certified Engineers</li>
+
+            <li>✔ Genuine Spare Parts</li>
+
+            <li>✔ Fast Doorstep Service</li>
+
+            <li>✔ Affordable Pricing</li>
+
+            <li>✔ 100% Customer Satisfaction</li>
+
+        </ul>
+
+    </div>
+
+</section>
+
+<!-- ================= FOOTER ================= -->
+
+<footer>
+
+    <p>
+
+        © 2026 Elite Repair & Services.
+
+        All Rights Reserved.
+
+    </p>
+
+</footer>
+
+<!-- Firebase Booking -->
+
+<script type="module" src="booking.js"></script>
+
+</body>
+
+</html>
