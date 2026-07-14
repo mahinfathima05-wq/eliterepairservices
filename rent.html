@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rent Appliances | Elite Repair & Services</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+<body>
+  <header>
+    <a href="index.html" class="logo">
+    <img src="image/logo.jpeg" alt="Elite Repair & Services logo" width="180" height="90" onerror="this.onerror=null;this.src='image/logo.jpeg'">
+    <span class="site-name">Elite Repair & Services</span>
+    </a>
+    <button class="hamburger" onclick="toggleMenu()" aria-label="Toggle navigation">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+    <nav id="navMenu">
+      <a href="index.html">Home</a>
+      <a href="product.html">Products</a>
+      <a href="booking.html">Book Service</a>
+      <a href="sell.html">Sell</a>
+      <a href="rent.html" class="active">Rent</a>
+      <a href="blog.html">Blog</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+      <a href="login.html" class="admin-btn">Admin</a>
+    </nav>
+  </header>
+
+  <section class="rent-hero">
+    <div class="hero-overlay">
+      <div class="hero-content">
+        <h1>Rent Appliances</h1>
+        <p>Explore our wide range of premium rental appliances designed to make your life easier. Enjoy flexible rental plans, affordable pricing, and a quick, hassle-free booking experience.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="rent-page">
+    <div class="rent-toolbar">
+      <h2 class="section-heading">Rent by Appliance Type</h2>
+      <p>Select a category below and then submit your rental request.</p>
+    </div>
+    <div class="rent-grid" id="rentalsContainer"></div>
+  </section>
+
+  <section class="customer-details" id="customerDetailsSection">
+    <div class="section-title">
+      <h2>Customer Details</h2>
+      <p>Fill out this form to request a rental appliance. We will contact you to confirm availability.</p>
+    </div>
+    <form id="rentalRequestForm" class="rental-request-form">
+      <div class="form-group">
+        <label for="customerName">Full Name</label>
+        <input id="customerName" type="text" placeholder="Your name" required>
+      </div>
+      <div class="form-group">
+        <label for="customerPhone">Phone Number</label>
+        <input id="customerPhone" type="tel" placeholder="+91 98765 43210" required>
+      </div>
+      <div class="form-group">
+        <label for="customerEmail">Email</label>
+        <input id="customerEmail" type="email" placeholder="you@example.com" required>
+      </div>
+      <div class="form-group">
+        <label for="selectedAppliance">Selected Appliance</label>
+        <input id="selectedAppliance" type="text" placeholder="E.g. Split AC 1.5 Ton" required>
+      </div>
+      <div class="form-group">
+        <label for="rentalDuration">Rental Duration</label>
+        <input id="rentalDuration" type="text" placeholder="E.g. 1 month" required>
+      </div>
+      <div class="form-group">
+        <label for="deliveryAddress">Delivery Address</label>
+        <textarea id="deliveryAddress" placeholder="Your delivery address" rows="3"></textarea>
+      </div>
+      <button class="rent-btn request-btn" type="submit">Submit Request</button>
+      <p id="requestMessage" class="request-message"></p>
+    </form>
+  </section>
+
+  <section class="faq-section">
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq-item">
+      <h3>How do I rent an appliance?</h3>
+      <p>Click the request button for the appliance you want and fill in your details to submit a rental request.</p>
+    </div>
+    <div class="faq-item">
+      <h3>Do I pay a deposit?</h3>
+      <p>Most rentals are billed monthly and may require a small refundable deposit. Specific terms will be confirmed after your request is submitted.</p>
+    </div>
+    <div class="faq-item">
+      <h3>Is installation included?</h3>
+      <p>Yes. Free installation is included for rented appliances whenever available in your area.</p>
+    </div>
+    <div class="faq-item">
+      <h3>Can I extend my rental?</h3>
+      <p>Yes. Contact our support team after placing the order to extend the rental period.</p>
+    </div>
+  </section>
+
+  <section class="contact-company">
+    <div class="contact-box">
+      <h2>Contact Us</h2>
+      <p>📍 Your Address Here</p>
+      <p>📞 +91 9035790433</p>
+      <p>📧 EliteRepair&Services.com</p>
+      <p>🕒 Mon - Sat: 9:00 AM - 7:00 PM</p>
+    </div>
+    <div class="company-box">
+      <h2>About Elite Repair & Services</h2>
+      <ul>
+        <li>✔ 10+ Years of Experience</li>
+        <li>✔ Certified Technicians</li>
+        <li>✔ Genuine Spare Parts</li>
+        <li>✔ Same-Day Service Available</li>
+        <li>✔ Rental, Repair & Sales Services</li>
+      </ul>
+    </div>
+  </section>
+
+  <footer>
+    <p>&copy; 2026 Elite Repair & Services. All rights reserved.</p>
+  </footer>
+
+  <script src="main.js"></script>
+  <script>
+    const applianceCategories = [
+      { name: 'Air Conditioner', image: 'image/ac.jpg', description: 'Cooling for rooms and offices.' },
+      { name: 'Refrigerator', image: 'image/fridge.jpg', description: 'Keep food fresh and cool.' },
+      { name: 'Washing Machine', image: 'image/washing-machine.jpg', description: 'Wash clothes easily at home.' },
+      { name: 'Oven', image: 'image/microwave.jpg', description: 'Bake, grill and cook quickly.' }
+    ];
+
+    const rentalsContainer = document.getElementById('rentalsContainer');
+    const rentalRequestForm = document.getElementById('rentalRequestForm');
+    const requestMessage = document.getElementById('requestMessage');
+
+    function renderCategories() {
+      rentalsContainer.innerHTML = applianceCategories.map((item) => `
+        <article class="rental-card">
+          <div class="rental-image">
+            <img src="${item.image}" alt="${item.name}">
+          </div>
+          <div class="rental-info">
+            <h3>${item.name}</h3>
+            <p class="rent-brand">${item.description}</p>
+            <button class="rent-btn request-btn" type="button" data-name="${item.name}">Request Rental</button>
+          </div>
+        </article>
+      `).join('');
+      bindRequestButtons();
+    }
+
+    function bindRequestButtons() {
+      document.querySelectorAll('.request-btn').forEach((button) => {
+        button.addEventListener('click', () => {
+          const selectedAppliance = button.dataset.name || '';
+          const selectedField = document.getElementById('selectedAppliance');
+          if (selectedField) {
+            selectedField.value = selectedAppliance;
+            selectedField.focus();
+          }
+          const formSection = document.getElementById('customerDetailsSection');
+          if (formSection) {
+            formSection.scrollIntoView({ behavior: 'smooth' });
+          }
+        });
+      });
+    }
+
+    if (rentalRequestForm) {
+      rentalRequestForm.addEventListener('submit', (event) => {
+        event.preventDefault();
+        requestMessage.textContent = 'Thank you! Your rental request has been sent. We will contact you soon.';
+        rentalRequestForm.reset();
+      });
+    }
+
+    renderCategories();
+  </script>
+</body>
+</html>

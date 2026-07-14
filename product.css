@@ -1,0 +1,59 @@
+.product-hero{
+
+    background:#0d47a1;
+    color:white;
+    text-align:center;
+    padding:80px 20px;
+
+}
+
+.product-hero h1{
+
+    font-size:50px;
+    margin-bottom:15px;
+
+}
+
+.search-section{
+
+    padding:40px;
+    text-align:center;
+
+}
+
+.search-section input{
+
+    width:60%;
+    padding:15px;
+    border-radius:8px;
+    border:1px solid #ccc;
+    font-size:16px;
+
+}
+
+.categories{
+
+    display:flex;
+    justify-content:center;
+    gap:15px;
+    flex-wrap:wrap;
+    padding:20px;
+
+}
+
+.categories button{
+
+    padding:12px 25px;
+    border:none;
+    background:#0d47a1;
+    color:white;
+    border-radius:8px;
+    cursor:pointer;
+
+}
+
+.products{
+
+    padding:60px;
+
+}

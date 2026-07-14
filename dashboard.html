@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Elite Repair | Admin Dashboard</title>
+
+    <link rel="stylesheet" href="admin.css">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <style>
+    /* Minimal settings UI styles and dark mode */
+    .settings-section { padding: 20px; display: none; }
+    .settings-form { max-width: 760px; background: #fff; padding: 16px; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.06); }
+    .settings-row { display:flex; justify-content:space-between; align-items:center; padding:8px 0; border-bottom:1px solid #f0f0f0; }
+    .settings-row label{ font-weight:600; margin-right:12px; }
+    .settings-row input[type="text"], .settings-row input[type="email"], .settings-row select { max-width:360px; padding:6px 8px; }
+    .settings-row input[type="checkbox"] { transform:scale(1.2); }
+    .settings-form button { margin-left:8px; padding:8px 12px; color:#000; background:#f2f2f2; border:1px solid #ccc; border-radius:4px; font-weight:600; cursor:pointer; }
+    .settings-form button:hover { background:#e6e6e6; }
+    body.dark { background:#111; color:#e6e6e6; }
+    body.dark .card, body.dark .table-section, body.dark .settings-form { background:#1b1b1b; color:#e6e6e6 }
+    </style>
+</head>
+
+<body>
+
+<!-- ================= Sidebar ================= -->
+<div class="admin-right">
+
+    <button class="notification-btn">
+
+        🔔
+
+        <span id="notificationCount">0</span>
+
+    </button>
+
+    <span id="adminEmail"></span>
+
+    <button id="logoutBtn" onclick="logoutUser(); return false;">
+        Logout
+    </button>
+
+</div>
+<div class="sidebar">
+
+    <div class="logo">
+
+        <h2>Elite Repair</h2>
+
+        <p>Admin Panel</p>
+
+    </div>
+
+    <ul>
+
+        <li class="active">
+            <a href="#" onclick="showSection('dashboardSection'); return false;">
+                <i class="fas fa-chart-line"></i>
+                Dashboard
+            </a>
+        </li>
+
+        <li>
+            <a href="#" onclick="showSection('bookingsSection'); return false;">
+                <i class="fas fa-calendar-check"></i>
+                Bookings
+            </a>
+        </li>
+
+        <li>
+            <a href="#" onclick="showSection('customersSection'); return false;">
+                <i class="fas fa-users"></i>
+                Customers
+            </a>
+        </li>
+
+        <li>
+            <a href="#" onclick="showSection('sellSection'); return false;">
+                <i class="fas fa-handshake"></i>
+                Sell Requests
+            </a>
+        </li>
+
+        <li>
+            <a href="#" onclick="showSection('rentSection'); return false;">
+                <i class="fas fa-box-open"></i>
+                Rent Requests
+            </a>
+        </li>
+
+        <li>
+            <a href="#" onclick="showSection('contactSection'); return false;">
+                <i class="fas fa-envelope"></i>
+                Contact Messages
+            </a>
+        </li>
+
+        <li>
+            <a href="#" onclick="showSection('settingsSection'); return false;">
+                <i class="fas fa-cog"></i>
+                Settings
+            </a>
+        </li>
+
+        <li>
+            <a href="#" onclick="logoutUser(); return false;" id="sidebarLogoutBtn">
+                <i class="fas fa-right-from-bracket"></i>
+                Logout
+            </a>
+        </li>
+
+    </ul>
+
+</div>
+
+<!-- ================= Main Content ================= -->
+
+<div class="main">
+
+    <!-- Top Bar -->
+
+    <div class="topbar">
+
+        <div>
+
+            <h1>Dashboard</h1>
+
+            <p id="todayDate"></p>
+
+        </div>
+
+        <div class="admin-info">
+
+            <i class="fas fa-user-circle"></i>
+
+            <span>Administrator</span>
+
+        </div>
+
+    </div>
+
+    <!-- Dashboard Cards -->
+
+    <div class="cards" id="dashboardSection">
+
+    <div class="card">
+        <h3>Total Bookings</h3>
+        <h1 id="bookingCount">0</h1>
+    </div>
+
+    <div class="card">
+        <h3>Pending</h3>
+        <h1 id="pendingCount">0</h1>
+    </div>
+
+    <div class="card">
+        <h3>Completed</h3>
+        <h1 id="completedCount">0</h1>
+    </div>
+
+    <div class="card">
+        <h3>Customers</h3>
+        <h1 id="customerCount">0</h1>
+    </div>
+
+    <div class="card">
+        <h3>Contact Messages</h3>
+        <h1 id="contactCount">0</h1>
+    </div>
+
+</div>
+
+    <!-- Search -->
+
+    <div id="bookingsSection" style="display:none;">
+
+        <div class="search-container">
+
+            <input
+                type="text"
+                id="searchBooking"
+                placeholder="🔍 Search by Name, Phone or Service">
+
+        </div>
+
+        <!-- Booking Table -->
+
+        <div class="table-section" id="bookingsTable">
+
+        <div class="table-header">
+            <h2>Service Bookings</h2>
+        </div>
+
+        <div class="toolbar">
+
+        <input
+            type="text"
+            id="searchInput"
+            placeholder="Search by Name, Phone or Booking ID">
+
+        <select id="statusFilter">
+
+            <option value="All">All</option>
+
+            <option value="Pending">Pending</option>
+
+            <option value="Completed">Completed</option>
+
+        </select>
+
+    </div>
+    <table id="bookingTable">
+
+        <thead>
+
+            <tr>
+
+                <th>Booking ID</th>
+
+                <th>Customer</th>
+
+                <th>Phone</th>
+
+                <th>Service</th>
+
+                <th>Date</th>
+
+                <th>Time</th>
+
+                <th>Status</th>
+
+                <th>Actions</th>
+
+            </tr>
+
+        </thead>
+
+        <tbody id="bookingTableBody">
+
+        </tbody>
+
+    </table>
+
+</div>
+
+    </div>
+
+<div class="table-section" id="customersSection" style="display:none;">
+
+    <div class="table-header">
+        <h2>Customers</h2>
+    </div>
+
+    <table id="customerTable">
+
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Phone</th>
+                <th>Email</th>
+                <th>Total Bookings</th>
+            </tr>
+        </thead>
+
+        <tbody id="customerTableBody">
+        </tbody>
+
+    </table>
+
+</div>
+
+    <div class="table-section" id="rentSection" style="display:none;">
+
+        <table id="rentRequestTable">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Phone</th>
+                    <th>Email</th>
+                    <th>Duration</th>
+                    <th>Details</th>
+                    <th>Submitted</th>
+                </tr>
+            </thead>
+            <tbody id="rentRequestTableBody">
+            </tbody>
+        </table>
+
+    </div>
+
+    <div class="table-section" id="sellSection" style="display:none;">
+        <div class="table-header">
+            <h2>Sell Requests</h2>
+        </div>
+
+        <table id="sellRequestTable">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Phone</th>
+                    <th>Email</th>
+                    <th>Appliance</th>
+                    <th>Price</th>
+                    <th>Condition</th>
+                    <th>Submitted</th>
+                </tr>
+            </thead>
+            <tbody id="sellRequestTableBody">
+            </tbody>
+        </table>
+    </div>
+
+    <div class="table-section" id="contactSection" style="display:none;">
+        <div class="table-header">
+            <h2>Contact Messages</h2>
+        </div>
+
+        <div class="toolbar">
+            <input
+                type="text"
+                id="contactSearchInput"
+                placeholder="Search contact messages...">
+        </div>
+
+        <table id="contactMessageTable">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Topic</th>
+                    <th>Message</th>
+                    <th>Submitted</th>
+                </tr>
+            </thead>
+            <tbody id="contactMessageTableBody">
+            </tbody>
+        </table>
+        <div id="contactMessageList" class="contact-list" style="display:none;">
+          <!-- Mobile-friendly stacked messages will be rendered here -->
+        </div>
+    </div>
+
+    <!-- Settings Section -->
+    <div class="table-section settings-section" id="settingsSection" style="display:none;">
+
+        <div class="table-header">
+            <h2>Settings</h2>
+        </div>
+
+        <div class="settings-form">
+
+            <div class="settings-row">
+                <label for="adminName">Admin Name</label>
+                <input type="text" id="adminName" placeholder="Your name">
+            </div>
+
+            <div class="settings-row">
+                <label for="adminEmailInput">Admin Email</label>
+                <input type="email" id="adminEmailInput" placeholder="email@example.com">
+            </div>
+
+            <div class="settings-row">
+                <label>Dark Mode</label>
+                <input type="checkbox" id="darkModeToggle">
+            </div>
+
+            <div class="settings-row">
+                <label>Notifications (Email)</label>
+                <input type="checkbox" id="emailNotificationsToggle">
+            </div>
+
+            <div class="settings-row">
+                <label>Default View</label>
+                <select id="defaultViewSelect">
+                    <option value="dashboard">Dashboard</option>
+                    <option value="bookings">Bookings</option>
+                    <option value="customers">Customers</option>
+                </select>
+            </div>
+
+            <div class="settings-row" style="border-bottom:none; justify-content:flex-end;">
+                <button id="restoreDefaultsBtn">Restore Defaults</button>
+                <button id="saveSettingsBtn">Save Settings</button>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- Customer Details Modal -->
+
+<div id="detailsModal" class="modal">
+
+    <div class="modal-content">
+
+        <span class="close">&times;</span>
+
+        <h2>Booking Details</h2>
+
+        <div id="detailsModalBody">
+
+        </div>
+
+    </div>
+
+</div>
+
+<div id="bookingModal" class="modal">
+
+    <div class="modal-content">
+
+        <span class="close">&times;</span>
+
+        <h2>Booking Details</h2>
+
+        <div id="bookingModalBody"></div>
+
+    </div>
+
+</div>
+
+<script src="settings.js"></script>
+<script type="module" src="admin.js"></script>
+
+</body>
+
+</html>
